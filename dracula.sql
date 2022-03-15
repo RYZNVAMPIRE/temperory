@@ -1,0 +1,14 @@
+create database company;
+use company;
+create table regions(region_id int primary key not null,region_name varchar(30));
+create table countries(country_id int primary key not null,region_id int not null,country_name varchar(30),foreign key(region_id) references regions(region_id));
+create table locations(location_id int primary key,country_id int,street_address varchar(100),postal_code int(10),city varchar(30),state_province varchar(30),foreign key(country_id) references countries(country_id));
+create table departments(department_id int primary key,location_id int,department_name varchar(30),foreign key(location_id) references locations(location_id));
+create table jobs(job_id int primary key,job_title varchar(30),min_salary varchar(20),max_salary varchar(30));
+create table employees(employee_id int primary key,first_name varchar(30),last_name varchar(30),email varchar(30),phone_number varchar(10),hire_date varchar(20),salary varchar(30),job_id int,foreign key(job_id) references jobs(job_id),manager_id int,foreign key(manager_id) references employees(employee_id),department_id int,foreign key(department_id) references departments(department_id));
+create table dependents(dependent_id int primary key,first_name varchar(20),last_name varchar(20),relationship varchar(30),employee_id int,foreign key(employee_id) references employees(employee_id));
+select * from dependents;
+alter table countries modify column region_id int not null;
+alter table locations modify column country_id int not null;
+alter table employees modify column job_id int not null;
+alter table dependents modify column employee_id int not null;
